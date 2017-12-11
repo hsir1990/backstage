@@ -1,0 +1,25 @@
+{
+  "name": "backstage",
+  "version": "1.0.0",
+  "description": "practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsir1990/backstage.git"
+  },
+  "author": "hsir1990",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hsir1990/backstage/issues"
+  },
+  "homepage": "https://github.com/hsir1990/backstage#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
