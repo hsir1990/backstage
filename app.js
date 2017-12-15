@@ -3,9 +3,12 @@ var express = require('express'),
     // // 'connect-flash'与'express-session'配合使用,flash方法储存值需要依赖express-sesion中，一般在使用redirect的时候使用
     // flash = require('connect-flash'),
     // session = require('express-session'),
-    path = reuqire('path'),
+    path = require('path'),
+    // 设置标题栏的小图标
     favicon = require('serve-favicon'),
+    // 写入日志的
     logger = require('morgan'),
+    // 设置cookie用的
     cookieParser = require('cookie-parser'),
     routes = require('./routes/main'),
 
