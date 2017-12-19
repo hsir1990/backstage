@@ -10,6 +10,10 @@ var express = require('express'),
     logger = require('morgan'),
     // 设置cookie用的
     cookieParser = require('cookie-parser'),
+    // 
+    bodyParser = require('body-parser'),
+
+    // 引用路由，在routes中使用get或者post
     routes = require('./routes/main'),
 
 

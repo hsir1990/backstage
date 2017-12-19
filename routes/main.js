@@ -8,12 +8,12 @@ var _ = require('underscore'),
     simpleMod = require('./modules/simpleMod'),//引入simple（简单）模块
     config = {
         get: {
-            '/set_v': simpleMode.setVersion,//设置静态资源版本号
+            '/set_v': simpleMod.setVersion,//设置静态资源版本号
             '/get_v': simpleMod.getVersion//获取静态资源版本号
         },
         post: {
-            '/user/save': userMod.save,//保存用户信用
-            '/user/del': userMod.delete
+            // '/user/save': userMod.save,//保存用户信用
+            // '/user/del': userMod.delete
         }
     };//路由配置
 
@@ -21,8 +21,11 @@ module.exports = function(app){
     // 分析路由配置对象，逐一处理
     // subConfig--json的内容，method--get或post的方法
     _.each(config, function(subConfig, method){
-        // url--自己定义的路径，func--- simpleMode.setVersion方法
+        console.log(config)
+        // url--自己定义的路径，func--- simpleMod.setVersion方法
         _.each(subConfig, function(func, url){
+            console.log(subConfig)
+            console.log(func)
             // app.get('/set_v',userMod.save)
             app[method](url, func);
 
