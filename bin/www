@@ -5,7 +5,7 @@
 */
 
 var app = require('../app'),//引入app
-    debug = require('debugger')('ZOA:server'),
+    debug = require('debug')('ZOA:server'),
     http = require('http');
 
 /**
@@ -13,7 +13,7 @@ var app = require('../app'),//引入app
 
  */
 
- var port = normalizaPort(process.env.POSRT || '3000');
+ var port = normalizePort(process.env.PORT || '3000');
  app.set('port', port);
 
  /**
