@@ -1,7 +1,7 @@
 // 类似于jq的一个类库
 var _ = require('underscore'),
 
-    // userMod = require('./modules/userMod'), //引入user（自己）模块
+    userMod = require('./modules/userMod'), //引入user（自己）模块
     // identityMode = require('./modules/identityMod'),//引入identity（身份）模块
     // menuMod = require('./modules/menuMod'),//引入menu（菜单）模块
     // competenceMod = require('./modules/competenceMod'),//引入competence（能力）模块
@@ -12,8 +12,8 @@ var _ = require('underscore'),
             '/get_v': simpleMod.getVersion//获取静态资源版本号
         },
         post: {
-            // '/user/save': userMod.save,//保存用户信用
-            // '/user/del': userMod.delete//删除用户
+            '/user/save': userMod.save,//保存用户信用
+            '/user/del': userMod.delete//删除用户
         }
     };//路由配置
 

@@ -29,6 +29,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+// 引入静态文件，只要是static下的html，js，css文件全部可以访问
 app.use(express.static(path.join(__dirname, 'static')));
 
 
