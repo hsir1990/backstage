@@ -1,3 +1,4 @@
+// src中必须有所指定的文件，否则dist不过去的
 var gulp = require('gulp'),
 
     copy = require('gulp-copy'),
@@ -33,6 +34,7 @@ function handleErrors () {
 **/
 gulp.task('replace', function () {
     var now = new Date().valueOf(),
+    // 自动给html中js和css的东西加上版本号
     stream = gulp.src('static/*.html')
         .pipe(replace(/href="(.*?).css"/g, 'href="$1.css?v=' + now + '"'))
         .pipe(replace(/src="(.*?).js"/g, 'src="$1.js?v=' + now + '"'))
