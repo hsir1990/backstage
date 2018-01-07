@@ -1,10 +1,10 @@
 // 生产服务器
 var distSettings = {
     host: '47.92.48.144',
-    port: 8888,
-    database: '47.92.48.144',
-    user: '47.92.48.144',
-    password: 'Abcd@12qa_python',
+    port: 3306,
+    database: 'han',
+    user: 'root',
+    password: 'Hsir1990',
 
     cookieName: 'qlk',
     cookieSecret: 'qlk',
