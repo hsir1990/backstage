@@ -1,9 +1,9 @@
 // 生产服务器
 var distSettings = {
-    host: 'ofc.mysql.qlk.com',
+    host: '47.92.48.144',
     port: 8888,
-    database: 'ofc_admin_frame',
-    user: 'ofc_python',
+    database: '47.92.48.144',
+    user: '47.92.48.144',
     password: 'Abcd@12qa_python',
 
     cookieName: 'qlk',
@@ -30,7 +30,7 @@ var testSettings = {
 
 //开发服务器
 var devSettings = {
-    host: '172.16.1.195',
+    host: '47.92.48.144',
     // host: '172.16.10.163',
     port: 3306,
     database: 'ofc_admin_frame',
