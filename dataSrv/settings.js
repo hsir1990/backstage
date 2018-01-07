@@ -18,8 +18,8 @@ var testSettings = {
     host: '47.92.48.144',
     port: 3306,
     database: 'han',
-    user: 'root',
-    password: 'Hsir990',
+    user: '',
+    password: '',
 
     cookieName: 'qlk',
     cookieSecret: 'qlk',
@@ -34,8 +34,8 @@ var devSettings = {
     // host: '172.16.10.163',
     port: 3306,
     database: 'ofc_admin_frame',
-    user: 'python',
-    password: '7lk_root',
+    user: '',
+    password: '',
     // user: 'ofcpython',
     // password: 'pydb@7lk.163',
 
