@@ -1,0 +1,1 @@
+var app=angular.module("app");app.filter("menuFilter",function(){return function(n,r,a){var u=[];return angular.forEach(n,function(n){(r.indexOf(n.id)!=-1||a)&&u.push(n)}),u}});

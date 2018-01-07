@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>角色管理</title>
+
+    <link rel="stylesheet" href="dist/lib/bootstrap/css/bootstrap.min.css?v=1510918310456" />
+
+    <!-- frame-page.css 必须放在框架样式资源的后面 -->
+    <link rel="stylesheet" href="dist/css/frame-page.css?v=1510918310456">
+</head>
+<body>
+<!--面包屑-->
+<div class="cm-bread-crumbs">
+    平台管理<span class="partition">&gt;</span>角色管理
+</div>
+
+<div class="pt10px pb10px pl10px pr10px">
+    <select id="J-role-select"></select>
+    <button type="button" class="cm-btn ml10px cm-btn-blue" id="J-save-btn" data-type="add">保存角色信息</button>
+    <button type="button" class="cm-btn ml10px cm-btn-orange" id="J-add-btn" data-type="add">新增角色</button>
+    <button type="button" class="cm-btn ml10px" id="J-del-btn" data-type="add">删除当前角色</button>
+</div>
+<form id="J-menu-wrap" class="menu-wrap"></form>
+
+<script id="J-menu-tpl" type="text/html">
+    <div class="cm-line"></div>
+
+    <div class="pl10px pt15px">角色名称：<input type="text" name="identityName" value="<%= identityName %>"></div>
+
+    <!-- tab -->
+    <ul id="J-nav-wrap" class="cm-nav mt10px">
+        <li class="item active">菜单权限</li>
+        <li class="item">限制权限</li>
+    </ul>
+
+    <div id="J-content-wrap" class="mt10px">
+        <div class="J-cont">
+        <% if (items.length > 0) { %>
+
+            <%
+            $.each(items, function (i, item) {
+                var checkStatus = '';
+                if ($.inArray(item.id.toString(), competence) != -1) {
+                    checkStatus = 'checked';
+                }
+            %>
+                <div class="J-menu-item menu-item menu-class-one">
+                    <span class="inner inner-one">
+                        <label class="J-menu-name"><input type="checkbox" name="identityCompetence" value="<%= item.id %>" <%= checkStatus %>><%= item.name %></label>
+                        <% if (item.href != '') { %> —— <span class="J-menu-href"><%= item.href %></span><% } %>
+                    </span>
+                <%
+                if (item.submenu.length > 0) {
+                    $.each(item.submenu, function (j, subListItem) {
+                        var checkStatus = '';
+                        if ($.inArray(subListItem.id.toString(), competence) != -1) {
+                            checkStatus = 'checked';
+                        }
+                %>
+                    <div class="J-menu-item menu-item menu-class-two">
+                        <span class="inner inner-two">
+                            <label class="J-menu-name"><input type="checkbox" name="identityCompetence" value="<%= subListItem.id %>" <%= checkStatus %>><%= subListItem.name %></label>
+                            <% if (subListItem.href != '') { %> —— <span class="J-menu-href"><%= subListItem.href %></span><% } %>
+                        </span>
+                    <%
+                    if (subListItem.submenu.length > 0) {
+                        $.each(subListItem.submenu, function (k, lastListItem) {
+                            var checkStatus = '';
+                            if ($.inArray(lastListItem.id.toString(), competence) != -1) {
+                                checkStatus = 'checked';
+                            }
+                    %>
+                        <div class="J-menu-item menu-item menu-class-three">
+                            <span class="inner inner-three">
+                                <label class="J-menu-name"><input type="checkbox" name="identityCompetence" value="<%= lastListItem.id %>" <%= checkStatus %>><%= lastListItem.name %></label>
+                                <% if (lastListItem.href != '') { %> —— <span class="J-menu-href"><%= lastListItem.href %></span><% } %>
+                            </span>
+                        </div>
+                    <%
+                        });
+                    }
+                    %>
+                    </div>
+                <%
+                    });
+                }
+                %>
+                </div>
+            <% }); %>
+
+        <% } else { %>
+            <div class="cm-no-data">暂无任何数据</div>
+        <% } %>
+        </div>
+        <div class="J-cont" style="display: none;">
+        <% if (pageData != null) { %>
+            <p class="cm-text-orange lh30px fBold">请勾选需要限制的权限</p>
+            <% $.each(pageData, function (i, item) { %>
+            <p class="fBold lh25px mt10px"><%= item.name %></p>
+            <table class="cm-table">
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>权限名</th>
+                    <th>描述</th>
+                    <th>选择器</th>
+                </tr>
+                <%
+                if (item.competenceList.length > 0) {
+                    $.each(item.competenceList, function (j, competence) {
+                        var checkStatus = '';
+                        if ($.inArray(competence.id.toString(), limit) != -1) {
+                            checkStatus = 'checked';
+                        }
+                %>
+                <tr>
+                    <td width="20" class="col-checkbox text-center">
+                        <input type="checkbox" value="<%= competence.id %>" name="competenceList" <%= checkStatus %>>
+                    </td>
+                    <td><%= competence.id %></td>
+                    <td><%= competence.name %></td>
+                    <td><%= competence.description %></td>
+                    <td><%= competence.selector %></td>
+                </tr>
+                <%
+                    });
+                } else {
+                %>
+                <tr>
+                    <td colspan="5" class="cm-text-orange pt15px pb15px">暂无任何数据</td>
+                </tr>
+                <% } %>
+
+            </table>
+            <% }); %>
+
+        <% } else { %>
+        <div class="cm-no-data">暂无任何数据</div>
+        <% } %>
+        </div>
+    </div>
+</script>
+
+<!--用户角色下拉选项模版-->
+<script type="text/html" id="J-identity-option-tpl">
+    <% $.each(identityData, function (id, item) { %>
+    <option value="<%= item.id %>"><%= item.identity_name %></option>
+    <% }); %>
+</script>
+
+<!--弹窗内容模版-->
+<script type="text/html" id="J-pop-tpl">
+    <form id="J-pop-form" class="cm-form">
+        <div class="pl20px pr20px">
+            <table class="cm-form-table">
+                <tr>
+                    <td width="80" class="col-txt text-right">角色名称：</td>
+                    <td width="240" class="col-input">
+                        <input type="text" name="identityName">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-txt pl20px" colspan="2">
+                        <span class="lh25px">
+                            注意：新增的角色默认不开启任何菜单权限<br>
+                            　　　新增后，可在左侧的下拉框选项中找到它
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center pt10px pb10px" colspan="2">
+                        <button type="submit" class="cm-btn">确定</button>
+                        <button id="J-pop-cancel-btn" type="button" class="cm-btn ml10px cm-btn-red">取消</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</script>
+
+<!-- start basic scripts -->
+<script src="dist/lib/jquery/jquery.min.js?v=1510918310456"></script>
+<script src="dist/lib/H/js/H.min.js?v=1510918310456"></script>
+<script src="dist/lib/underscore/underscore.min.js?v=1510918310456"></script>
+<!-- end basic scripts -->
+
+<script>
+    var v = H.Storage.get('version');
+    H.JsLoader.get({
+        name: 'common',
+        url: 'dist/js/oss-common.js?v=' + v
+    },{
+        name: 'identity-manage',
+        url: 'dist/js/identity-manage.js?v=' + v
+    });
+</script>
+</body>
+</html>

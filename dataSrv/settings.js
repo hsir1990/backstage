@@ -15,11 +15,11 @@ var distSettings = {
 
 //测试服务器
 var testSettings = {
-    host: '172.16.1.163',
+    host: '47.92.48.144',
     port: 3306,
-    database: 'ofc_admin_frame',
-    user: 'ofcpython',
-    password: 'pydb@7lk.163',
+    database: 'han',
+    user: 'root',
+    password: 'Hsir990',
 
     cookieName: 'qlk',
     cookieSecret: 'qlk',

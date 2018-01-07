@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>权限管理</title>
+
+    <link rel="stylesheet" href="dist/lib/bootstrap/css/bootstrap.min.css?v=1510918310456" />
+
+    <!-- frame-page.css 必须放在框架样式资源的后面 -->
+    <link rel="stylesheet" href="dist/css/frame-page.css?v=1510918310456">
+</head>
+<body>
+<!--面包屑-->
+<div class="cm-bread-crumbs">
+    平台管理<span class="partition">&gt;</span>权限管理
+</div>
+
+<div class="pt10px pb10px pl10px pr10px">
+    <select id="J-page-select">
+        <option value="">请先创建权限管理模块</option>
+    </select>
+    <button type="button" class="cm-btn ml10px" id="J-add-btn" data-type="add">新增权限管理模块</button>
+    <button type="button" class="cm-btn ml10px cm-btn-blue" id="J-create-btn" data-type="add">新增权限</button>
+    <button type="button" class="cm-btn ml10px cm-btn-green" id="J-del-btn" data-type="add">删除当前模块</button>
+</div>
+<form id="J-competence-wrap" class="menu-wrap"></form>
+
+<script id="J-competence-tpl" type="text/html">
+    <div class="cm-line"></div>
+
+    <div class="pl10px pt15px">
+        <table>
+            <tr>
+                <td>权限管理模块名：</td>
+                <td><input id="J-page-name" type="text" name="pageName" value="<%= pageName %>"></td>
+                <td><button type="button" class="cm-btn ml10px" id="J-save-btn" data-type="add">更新模块名</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <p class="fBold pl10px mt10px lh30px f14px">权限列表</p>
+    <table class="cm-table mt15px">
+        <tr class="text-left">
+            <th>ID</th>
+            <th>权限名</th>
+            <th>描述</th>
+            <th>选择器</th>
+            <th>操作</th>
+        </tr>
+        <% if (items.length > 0) { %>
+            <% $.each(items, function (i, item) { %>
+            <tr>
+                <td><%= item.id %></td>
+                <td><%= item.name %></td>
+                <td><%= item.description %></td>
+                <td><%= item.selector %></td>
+                <td>
+                    <a href="#" class="cm-link-blue J-edit-btn" data-index="<%= i %>">修改</a>
+                    <a href="#" class="cm-link-blue ml5px J-del-btn" data-id="<%= item.id %>">删除</a>
+                </td>
+            </tr>
+            <% }); %>
+        <% } else { %>
+            <tr>
+                <td colspan="5" class="cm-no-data">暂无任何数据</td>
+            </tr>
+        <% } %>
+    </table>
+
+</script>
+
+<!--用户角色下拉选项模版-->
+<script type="text/html" id="J-page-option-tpl">
+    <% $.each(pageData, function (id, item) { %>
+    <option value="<%= item.id %>"><%= item.name %></option>
+    <% }); %>
+</script>
+
+<!--新增模块-弹窗内容模版-->
+<script type="text/html" id="J-page-pop-tpl">
+    <form id="J-page-form" class="cm-form">
+        <div class="pl20px pr20px">
+            <table class="cm-form-table">
+                <tr>
+                    <td width="80" class="col-txt text-right">模块名：</td>
+                    <td width="240" class="col-input">
+                        <input type="text" name="name">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-txt pl20px" colspan="2">
+                        <span class="lh25px">
+                            注意：新增权限管理模块默认没有任何权限<br>
+                            　　　新增后，可在左侧的下拉框选项中找到它
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center pt10px pb10px" colspan="2">
+                        <button type="submit" class="cm-btn">确定</button>
+                        <button id="J-page-cancel-btn" type="button" class="cm-btn ml10px cm-btn-red">取消</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</script>
+
+<!--新增/修改权限-弹窗内容模版-->
+<script type="text/html" id="J-competence-pop-tpl">
+    <form id="J-competence-form" class="cm-form">
+        <div class="pl20px pr20px">
+            <div class="hide"><input type="hidden" name="id"></div>
+            <table class="cm-form-table">
+                <tr>
+                    <td width="80" class="col-txt text-right">权限名：</td>
+                    <td width="240" class="col-input">
+                        <input type="text" name="name">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="80" class="col-txt text-right">所属模块：</td>
+                    <td width="240" class="col-input">
+                        <select name="page_id"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="80" class="col-txt text-right">权限描述：</td>
+                    <td width="240" class="col-input">
+                        <textarea name="description" style="width: 100%; height: 78px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="80" class="col-txt text-right">选择器：</td>
+                    <td width="240" class="col-input">
+                        <input type="text" name="selector">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center pt10px pb10px" colspan="2">
+                        <button type="submit" class="cm-btn">确定</button>
+                        <button id="J-competence-cancel-btn" type="button" class="cm-btn ml10px cm-btn-red">取消</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</script>
+
+<!-- start basic scripts -->
+<script src="dist/lib/jquery/jquery.min.js?v=1510918310456"></script>
+<script src="dist/lib/H/js/H.min.js?v=1510918310456"></script>
+<!-- end basic scripts -->
+
+<script>
+    var v = H.Storage.get('version');
+    H.JsLoader.get({
+        name: 'common',
+        url: 'dist/js/oss-common.js?v=' + v
+    },{
+        name: 'competence-manage',
+        url: 'dist/js/competence-manage.js?v=' + v
+    });
+</script>
+</body>
+</html>

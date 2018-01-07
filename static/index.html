@@ -1,15 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style rel="stylesheet" href="./dist/css/inde.css?v=1514969675048"></style>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>七乐康运营管理平台</title>
+    <link rel="stylesheet" href="dist/css/common.css?v=1510918310456">
+    <link rel="stylesheet" href="dist/lib/H/css/H.min.css?v=1510918310456">
+    <script type="text/javascript" src="dist/lib/jquery/jquery.min.js?v=1510918310456"></script>
+    <script type="text/javascript" src="dist/lib/H/js/H.min.js?v=1510918310456"></script>
+    <script type="text/javascript" src="dist/lib/angular/angular.min.js?v=1510918310456"></script>
+    <script type="text/javascript" src="dist/lib/angular/angular.ui.router.min.js?v=1510918310456"></script>
+    <script type="text/javascript" src="dist/lib/angular/ocLazyLoad.require.min.js?v=1510918310456"></script>
+    <script type="text/javascript" src="dist/lib/require/require.min.js?v=1510918310456"></script>
+    <script type="text/javascript" src="dist/lib/iscroll/iscroll.min.js?v=1510918310456"></script>
 </head>
 <body>
-    <h1>hsir制作</h1>
-    <p>hsir</p>
-    <script type="text/javascript" src="./dist/js/services/services.js?v=1514969675048"></script>
+<div ui-view></div>
+
+<script type="text/javascript">
+    document.domain = '7lk.com';
+
+    // 判断是否有工号
+    // var moRouter = '/platform/main';
+    var moRouter = '/login';
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+    if(GetQueryString('staff_no') !=null){
+        $.ajax({
+            url: '/user/seeJobNumber',
+            type: 'post',
+            data:{"staff_no": GetQueryString('staff_no'),"key": GetQueryString('key')},
+            success: function (re) {
+                if(re.code == 1 && re.data.length == 1){
+                        moRouter = '/platform/main';  
+                        H.Storage.set('userName', re.data[0].user_name);
+                }else if(re.code == 1 && re.data.length > 1){
+                    moRouter = '/login';
+                }else if(re.code == 0){
+                    moRouter = '/login';
+                    // H.alert(re.msg);
+                }else if(re.code == 2){
+                    H.alert(re.msg);
+                    moRouter = '';
+                }
+                $.ajax({
+                    url: '/get_v',
+                    type: 'get',
+                    dataType: 'jsonp',
+                    success: function (re) {
+                        var curVer = re.data,
+                            odlVer = H.Storage.get('version');
+
+                        if (curVer != odlVer) {
+                            H.Storage.set('version', curVer);
+                        }
+                    },
+                    error: function () {
+                        console.info('get version fail');
+                    }
+                });
+                var v = H.Storage.get('version');
+                H.JsLoader.get({
+                    name: 'index',
+                    url: 'dist/js/index.js?v=' + v
+                });
+            },
+            error: function () {
+                console.info('get version fail');
+            }
+        });
+    }else{
+        $.ajax({
+            url: '/get_v',
+            type: 'get',
+            dataType: 'jsonp',
+            success: function (re) {
+                var curVer = re.data,
+                    odlVer = H.Storage.get('version');
+
+                if (curVer != odlVer) {
+                    H.Storage.set('version', curVer);
+                }
+            },
+            error: function () {
+                console.info('get version fail');
+            }
+        });
+        var v = H.Storage.get('version');
+        H.JsLoader.get({
+            name: 'index',
+            url: 'dist/js/index.js?v=' + v
+        });
+    }
+    
+
+    
+
+    // var v = H.Storage.get('version');
+    // H.JsLoader.get({
+    //     name: 'index',
+    //     url: 'dist/js/index.js?v=' + v
+    // });
+</script>
 </body>
 </html>

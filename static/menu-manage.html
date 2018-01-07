@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>菜单管理</title>
+
+    <link rel="stylesheet" href="dist/lib/bootstrap/css/bootstrap.min.css?v=1510918310456" />
+
+    <!-- frame-page.css 必须放在框架样式资源的后面 -->
+    <link rel="stylesheet" href="dist/css/frame-page.css?v=1510918310456">
+</head>
+<body>
+<!--面包屑-->
+<div class="cm-bread-crumbs">
+    平台管理<span class="partition">&gt;</span>菜单管理
+</div>
+
+<div class="pt10px pb10px pl10px pr10px">
+    <label><input id="J-check-all" type="checkbox">全选</label>
+    <button type="button" class="cm-btn ml20px" id="J-multi-del-btn">批量删除</button>
+    <button type="button" class="cm-btn ml10px cm-btn-orange" id="J-add-btn" data-type="add">新增一级菜单</button>
+</div>
+<form id="J-menu-wrap" class="menu-wrap"></form>
+
+<script id="J-menu-tpl" type="text/html">
+    <% if (items.length > 0) { %>
+
+        <% $.each(items, function (i, item) { %>
+        <p class="J-menu-item menu-item menu-class-one">
+            <span class="inner">
+                <label class="J-menu-name"><input type="checkbox" name="id" value="<%= item.id %>"><%= item.name %></label>
+                <% if (item.href) { %> —— <span class="J-menu-href"><%= item.href %></span><% } %>
+                <span class="J-ctrl ctrl pl20px f12px">
+                    [ <a href="#" class="cm-link-blue J-add-btn" data-pid="<%= item.id %>" data-type="add">新增子菜单</a> |
+                    <a href="#" class="cm-link-green J-edit-btn" data-id="<%= item.id %>" data-type="edit" data-target="<%= item.target %>">编辑</a> |
+                    <a href="#" class="cm-link-gray J-del-btn" data-id="<%= item.id %>">删除</a> ]
+                </span>
+            </span>
+        </p>
+
+            <%
+            if (item.submenu.length > 0) {
+                $.each(item.submenu, function (j, subListItem) {
+            %>
+                <p class="J-menu-item menu-item menu-class-two">
+                    <span class="inner">
+                        <label class="J-menu-name"><input type="checkbox" name="id" value="<%= subListItem.id %>"><%= subListItem.name %></label>
+                        <% if (subListItem.href) { %> —— <span class="J-menu-href"><%= subListItem.href %></span><% } %>
+                        <span class="J-ctrl ctrl pl20px f12px">
+                            [ <a href="#" class="cm-link-blue J-add-btn" data-pid="<%= subListItem.id %>" data-type="add">新增子菜单</a> |
+                            <a href="#" class="cm-link-green J-edit-btn" data-id="<%= subListItem.id %>" data-type="edit" data-target="<%= subListItem.target %>">编辑</a> |
+                            <a href="#" class="cm-link-gray J-del-btn" data-id="<%= subListItem.id %>">删除</a> ]
+                        </span>
+                    </span>
+                </p>
+
+                    <%
+                    if (subListItem.submenu.length > 0) {
+                        $.each(subListItem.submenu, function (k, lastListItem) {
+                    %>
+                    <p class="J-menu-item menu-item menu-class-three">
+                        <span class="inner">
+                            <label class="J-menu-name"><input type="checkbox" name="id" value="<%= lastListItem.id %>"><%= lastListItem.name %></label>
+                            <% if (lastListItem.href) { %> —— <span class="J-menu-href"><%= lastListItem.href %></span><% } %>
+                            <span class="J-ctrl ctrl pl20px f12px">
+                                [ <a href="#" class="cm-link-green J-edit-btn" data-id="<%= lastListItem.id %>" data-type="edit" data-target="<%= lastListItem.target %>">编辑</a> |
+                                <a href="#" class="cm-link-gray J-del-btn" data-id="<%= lastListItem.id %>">删除</a> ]
+                            </span>
+                        </span>
+                    </p>
+                    <%
+                        });
+                    }
+                    %>
+
+            <%
+                });
+            }
+            %>
+
+        <% }); %>
+
+    <% } else { %>
+        <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--弹窗内容模版-->
+<script type="text/html" id="J-pop-tpl">
+    <form id="J-pop-form" class="cm-form">
+        <div class="hide">
+            <input type="hidden" name="id" value="">
+            <input type="hidden" name="pid" value="0">
+        </div>
+        <div class="pl20px pr20px">
+            <table class="cm-form-table">
+                <tr>
+                    <td width="80" class="col-txt text-right">菜单名称：</td>
+                    <td width="400" class="col-input">
+                        <input type="text" name="name">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-txt text-right">跳转链接：</td>
+                    <td class="col-input">
+                        <input type="text" name="href">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-txt text-right">跳转目标：</td>
+                    <td class="col-input">
+                        <select name="target">
+                            <option value="mainFrame">框架窗口</option>
+                            <option value="_blank">新窗口</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center pt10px pb10px" colspan="2">
+                        <button type="submit" class="cm-btn">确定</button>
+                        <button id="J-pop-cancel-btn" type="button" class="cm-btn ml10px cm-btn-red">取消</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</script>
+
+<!-- start basic scripts -->
+<script src="dist/lib/jquery/jquery.min.js?v=1510918310456"></script>
+<script src="dist/lib/H/js/H.min.js?v=1510918310456"></script>
+<!-- end basic scripts -->
+
+<script>
+    var v = H.Storage.get('version');
+    H.JsLoader.get({
+        name: 'common',
+        url: 'dist/js/oss-common.js?v=' + v
+    },{
+        name: 'menu-manage',
+        url: 'dist/js/menu-manage.js?v=' + v
+    });
+</script>
+</body>
+</html>

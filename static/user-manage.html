@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>用户管理</title>
+
+    <link rel="stylesheet" href="dist/lib/bootstrap/css/bootstrap.min.css?v=1510918310456" />
+    <link rel="stylesheet" href="dist/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css?v=1510918310456" />
+
+    <!-- frame-page.css 必须放在框架样式资源的后面 -->
+    <link rel="stylesheet" href="dist/css/frame-page.css?v=1510918310456">
+</head>
+<body>
+<!--面包屑-->
+<div class="cm-bread-crumbs">
+    平台管理<span class="partition">&gt;</span>用户管理
+</div>
+
+<!--表单-->
+<div class="cm-line"></div>
+<form id="J-form" class="cm-form cro-form">
+    <div class="cm-form-table">
+
+        <div class="ctrl-group">
+            <div class="col-txt">用户名：</div>
+            <div class="col-input">
+                <input type="text" name="userName" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="ctrl-group">
+            <div class="col-txt">用户角色：</div>
+            <div class="col-input">
+                <select name="identityId">
+                    <option value="">全部</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="ctrl-group ctrl-group-for-calendar">
+            <div class="col-txt">创建日期：</div>
+            <div id="J-date-wrap" class="col-input">
+                <input type="text" class="J-date-picker cm-input-calendar" name="createTimeStart" autocomplete="off">
+                <span class="gap">-</span>
+                <input type="text" class="J-date-picker cm-input-calendar" name="createTimeEnd" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="ctrl-group pt5px pl20px">
+            <button type="submit" class="cm-btn">查询</button>
+            <button id="J-add-btn" type="button" class="cm-btn ml5px cm-btn-blue" data-type="add">新增用户</button>
+            <button id="J-import-btn" type="button" class="cm-btn ml5px cm-btn-green" data-type="add">导入用户</button>
+        </div>
+
+    </div>
+</form>
+<div class="cm-line"></div>
+
+<!--数据列表-->
+<div id="J-table-wrap"></div>
+
+<!--分页-->
+<div id="J-pager-wrap" class="cm-pager-wrap"></div>
+
+<!--分页模版-->
+<script type="text/html" id="J-pager-tpl">
+    <span class="ui-pager-txt">
+        共 <em><%= total %></em> 条记录，每页 <em><%= ps %></em> 条
+    </span>
+    <div class="ui-pager">
+        <% if (els.length > 7) { %>
+        <a class="J-page-to <%= els[1].cls == 'ui-pager-can ui-pager-active' ? 'ui-pager-cant' : els[1].cls %>" data-pg="<%= els[1].pg %>">首页</a>
+        <% } %>
+
+        <% $.each(els, function (i, item) { %>
+        <a class="J-page-to <%= item.cls %>" data-pg="<%= item.pg %>"><%= item.name %></a>
+        <% }) %>
+
+        <% if (els.length > 7) { %>
+        <a class="J-page-to <%= els[els.length - 2].cls == 'ui-pager-can ui-pager-active' ? 'ui-pager-cant' : els[els.length - 2].cls %>" data-pg="<%= els[els.length - 2].pg %>">末页</a>
+        <% } %>
+    </div>
+</script>
+
+<!--用户身份下拉选项模版-->
+<script type="text/html" id="J-identity-option-tpl">
+    <% $.each(identityData, function (id, name) { %>
+    <option value="<%= id %>"><%= name %></option>
+    <% }); %>
+</script>
+
+<!--数据列表模版-->
+<script type="text/html" id="J-table-tpl">
+    <% if (list.length > 0) { %>
+    <table class="cm-table mt15px">
+        <tr class="text-left">
+            <th>ID</th>
+            <th>用户名</th>
+            <th>实名</th>
+            <th>花名</th>
+            <th>工号</th>
+            <th>创建时间</th>
+            <th>用户角色</th>
+            <th>操作</th>
+        </tr>
+        <% $.each(list, function (i, item) { %>
+        <tr class="hover">
+            <td><%= item.id %></td>
+            <td><%= item.user_name %></td>
+            <td><%= item.user_real_name %></td>
+            <td><%= item.user_nick_name %></td>
+            <td><%= item.user_job_number %></td>
+            <td><%= new Date(item.user_registered).format('yyyy-MM-dd HH:mm:ss') %></td>
+            <td><%= userManageMod.identityData[item.user_identity_id] %></td>
+            <td>
+                <a href="#" class="cm-link-blue J-edit-btn" data-index="<%= i %>" data-type="edit">修改</a>
+                <a href="#" class="cm-link-blue ml5px J-del-btn" data-id="<%= item.id %>">删除</a>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--弹窗内容模版-->
+<script type="text/html" id="J-pop-tpl">
+    <form id="J-pop-form" class="cm-form">
+        <div class="hide">
+            <input type="hidden" name="id">
+        </div>
+        <div class="pl20px pr20px">
+            <table class="cm-form-table">
+                <tr>
+                    <td width="80" class="col-txt text-right">用户名：</td>
+                    <td width="200" class="col-input">
+                        <input type="text" name="userName">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="80" class="col-txt text-right">实　名：</td>
+                    <td width="200" class="col-input">
+                        <input type="text" name="userRealName">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="80" class="col-txt text-right">花　名：</td>
+                    <td width="200" class="col-input">
+                        <input type="text" name="userNickName">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="80" class="col-txt text-right">工　号：</td>
+                    <td width="200" class="col-input">
+                        <input type="text" name="userJobNumber" readonly="readonly"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-txt text-right">密　码：</td>
+                    <td class="col-input">
+                        <input type="password" name="password">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-txt text-right">角　色：</td>
+                    <td class="col-input">
+                        <select name="identityId">
+                            <% $.each(identityData, function (id, name) { %>
+                            <option value="<%= id %>"><%= name %></option>
+                            <% }); %>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center pt10px pb10px" colspan="2">
+                        <button type="submit" class="cm-btn">确定</button>
+                        <button id="J-pop-cancel-btn" type="button" class="cm-btn ml10px cm-btn-red">取消</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</script>
+
+<!--弹窗内容模版-->
+<script type="text/html" id="J-import-pop-tpl">
+    <form id="J-import-form" class="cm-form">
+        <div class="pl20px pr20px">
+            <table class="cm-form-table">
+                <tr>
+                    <td width="80" class="col-txt text-right">导入文件：</td>
+                    <td width="250" class="pr5px">
+                        <label class="cm-file">
+                            <input type="file" name="table" class="cm-file-input">
+                            <span class="J-file-text cm-file-text">请选择文件</span>
+                            <span class="cm-file-btn">浏览</span>
+                        </label>
+                    </td>
+                    <td>
+                        <button id="J-import-do-btn" type="button" class="cm-btn">导入</button>
+                    </td>
+                    <td>
+                        <button id="J-import-cancel-btn" type="button" class="cm-btn ml10px cm-btn-green">取消</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</script>
+
+<!-- start basic scripts -->
+<script src="dist/lib/jquery/jquery.min.js?v=1510918310456"></script>
+<script src="dist/lib/H/js/H.min.js?v=1510918310456"></script>
+<script src="dist/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js?v=1510918310456"></script>
+<script src="dist/lib/bootstrap-datepicker/js/bootstrap-datepicker.zh-CN.js?v=1510918310456"></script>
+<!-- end basic scripts -->
+
+<script>
+    var v = H.Storage.get('version');
+    H.JsLoader.get(/*{
+        name: 'common',
+        url: 'dist/js/oss-common.js?v=' + v
+    },*/{
+        name: 'user-manage',
+        url: 'dist/js/user-manage.js?v=' + v
+    });
+</script>
+</body>
+</html>

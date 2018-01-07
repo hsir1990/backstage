@@ -1,0 +1,31 @@
+<div class="login-box">
+    <h1 class="title"></h1>
+    <form ng-submit="login()">
+        <ul class="form-warp">
+            <li class="form-item">
+                <span class="icon-wrap">用户名</span>
+                <input ng-model="userName" type="text" class="ui-text-large" placeholder="请输入用户名" autocomplete="off">
+            </li>
+            <li class="form-item">
+                <span class="icon-wrap">密　码</span>
+                <input ng-model="password" type="password" class="ui-text-large" placeholder="请输入密码" autocomplete="off">
+            </li>
+        </ul>
+        <p ng-click="addJobNum()" class="text-center">输入账号密码后点击这里可进行工号绑定</p>
+        <div class="btn-wrap">
+            <button type="submit" class="ui-btn ui-btn-large">登　　 录</button>
+        </div>
+    </form>
+</div>
+<div class="login-tips-wrap hidden" ng-class="{hidden:errMsg == ''}">
+    <div class="login-tips">{{errMsg}}</div>
+</div>
+<div id="divBox">
+    <div class="show-box">
+        <h3 class="show-box-title">请选择您要登录的系统账号：</h3>
+        <p ng-repeat="x in dataMsg" ng-click="oncc()" class="selectJob" style="cursor:pointer; display:inline-block;margin-top:13px;font-size:20px;line-height:50px; background-color:#1889a4; text-align:center;width:300px;white-space:nowrap;border-radius:25px;-webkit-border-radius:25px;-moz-border-radius:25px;">
+            <b class="user-name" data-userName="{{x.user_nick_name}}">{{x.user_name}}</b><b>,</b><b>{{x.user_nick_name}}</b><b>,</b><b>{{x.user_real_name}}</b>
+        </p>
+        <h3 class="hide-box" ng-click="onHide()">使用其他账号登陆</h3>
+    </div>
+</div>

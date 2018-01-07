@@ -1,0 +1,1 @@
+var app=angular.module("app");app.factory("xhr",["$http","$q",function(r,o){return{ajax:function(e){var u=o.defer();return e.timeout=u.promise,"undefined"!=typeof xhrPool[e.url]&&xhrPool[e.url].resolve(),xhrPool[e.url]=u,r(e)}}}]);

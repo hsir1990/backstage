@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>七乐康运营管理平台</title>
+    <link rel="stylesheet" href="dist/css/frame-page.css?v=1510918310456">
+    <link rel="stylesheet" href="dist/lib/H/css/H.min.css?v=1510918310456">
+</head>
+<body>
+<h1 class="f18px fBold pb5px">欢迎使用七乐康运营平台</h1>
+<div class="cm-line"></div>
+<h2 class="f16px fNormal mt10px cm-text-orange">首次使用温馨提示</h2>
+
+<p class="f14px fBold mt10px cm-text-blue">1.关于系统顶部页签操作注意事项</p>
+<p class="f14px mt5px">a.当页签数量过多时，部分页签显示不出来时，可将鼠标移到页签条，点击鼠标左键不放，然后左右拖动，就可拖动页签条了</p>
+<p class="f14px mt5px">b.可通过双击页签来关闭页签</p>
+<br>
+<p class="f14px fBold mt20px cm-text-blue">2.关于系统的浏览器兼容性</p>
+<p class="f14px mt5px">a.推荐使用 <span class="cm-text-orange">谷歌浏览器（Chrome）</span> 来浏览系统页面，可<a href="http://sw.bos.baidu.com/sw-search-sp/software/29cd900ea7d/ChromeStandalone_50.0.2661.102_Setup.exe" class="cm-link-blue" target="_blank">点击此处</a>下载安装。</p>
+<p class="f14px mt5px">b.本系统只对现代浏览器提供支持。什么是现代浏览器？（Chrome、Firefox、IE10+、Safari...）</p>
+<p class="f14px mt5px">c.系统将不会对低版本IE提供支持，如果使用低版本IE浏览系统页面，可能会出现各种意想不到的问题。（PS：很多国产浏览器都是直接调用IE的内核，诸如搜狗，360之流）</p>
+<p class="f14px mt5px">d.如果 Chrome浏览器 安装过程出现问题，可直接联系运维解决。</p>
+<br>
+<p class="f14px fBold mt20px cm-text-blue">3.Chrome浏览器怎么清除浏览器缓存</p>
+<p class="f14px mt5px">虽然系统已经加入了静态资源缓存更新机制，但没法确保所有的静态资源都能实时获取最新</p>
+<p class="f14px mt5px">SO，有时系统更新后，需要用户手动清空浏览器缓存或者等待浏览器缓存过期后才能看到最新的效果</p>
+<p class="f14px mt5px">考虑到不是每个用户都熟悉Chrome浏览器的使用，这里附上 <span class="cm-text-orange">Chrome浏览器的缓存清除</span> 图文说明：</p>
+<p class="f14px fBold mt15px">step 1：点击浏览器页签区最右侧的按钮，新建页签</p>
+<p class="f14px mt5px"><img src="dist/img/common/step01.png"></p>
+<p class="f14px fBold mt15px">step 2：在地址栏输入 <span class="cm-text-orange">chrome://history</span> 就会出现如下页面（该页面可以添加到收藏里，方便下次快速打开），点击 <span class="cm-text-orange">清除浏览数据</span> 按钮</p>
+<p class="f14px mt5px"><img src="dist/img/common/step02.png"></p>
+<p class="f14px fBold mt15px">step 3：清除指定时间段内的数据选择 <span class="cm-text-orange">全部</span>，把需要清楚的数据勾上（建议全部勾上，Cookie和密码可根据个人需要酌情不勾选）,然后点击 <span class="cm-text-orange">清除浏览数据</span> 按钮。清除缓存成功！</p>
+<p class="f14px mt5px"><img src="dist/img/common/step03.png"></p>
+<br>
+<p class="f14px fBold mt20px cm-text-blue">4.系统静态资源版本号更新接口地址（非技术人员无需关心此项）</p>
+<p class="f14px mt5px">http://oss.7lk.com/set_v</p>
+<br>
+<p class="f14px fBold mt20px cm-text-blue">5.用户批量导入 excel 模版</p>
+<p class="f14px mt5px"><a href="http://oss.7lk.com/new-users.xlsx" class="cm-link-blue" target="_blank">http://oss.7lk.me/new-users.xlsx</a></p>
+<p class="f14px mt5px">下载填写完后，交给技术人员补充完角色之后，由技术人员导入。</p>
+<p class="f14px mt5px">角色值不能乱填，否则导入的用户会没有任何操作权限。内容也必须严格按照所提供的模版填写，否则会导致用户信息有误。</p>
+<br><br><br>
+
+<script type="text/javascript" src="dist/lib/jquery/jquery.min.js?v=1510918310456"></script>
+<script type="text/javascript" src="dist/lib/H/js/H.min.js?v=1510918310456"></script>
+<script type="text/javascript">
+    var v = H.Storage.get('version');
+    H.JsLoader.get({
+        name: 'common',
+        url: 'dist/js/oss-common.js?v=' + v
+    });
+</script>
+</body>
+</html>

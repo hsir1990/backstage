@@ -1,0 +1,22 @@
+<div class="login-box">
+    <h1 class="title"></h1>
+    <form ng-submit="login()">
+        <ul class="form-warp">
+            <li class="form-item">
+                <span class="icon-wrap">工　号</span>
+                <input ng-model="userName" type="text" class="ui-text-large" placeholder="请输入用户名"  autocomplete="off">
+            </li>
+            <li class="form-item">
+                <span class="icon-wrap">密　码</span>
+                <input ng-model="password" type="password" class="ui-text-large" placeholder="请输入密码" autocomplete="off">
+            </li>
+        </ul>
+        <p class="text-center" style="margin-bottom:12px;text-decoration:none;">请绑定ehr的工号和密码</p>
+        <div class="btn-wrap">
+            <button type="submit" class="ui-btn ui-btn-large">提　　 交</button>
+        </div>
+    </form>
+</div>
+<div class="login-tips-wrap hidden" ng-class="{hidden:errMsg == ''}">
+    <div class="login-tips">{{errMsg}}</div>
+</div>

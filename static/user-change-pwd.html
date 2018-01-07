@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>修改密码</title>
+
+    <link rel="stylesheet" href="dist/lib/bootstrap/css/bootstrap.min.css?v=1510918310456" />
+    <link rel="stylesheet" href="dist/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css?v=1510918310456" />
+
+    <!-- frame-page.css 必须放在框架样式资源的后面 -->
+    <link rel="stylesheet" href="dist/css/frame-page.css?v=1510918310456">
+</head>
+<body>
+<!--面包屑-->
+<div class="cm-bread-crumbs">
+    个人信息<span class="partition">&gt;</span>修改密码
+</div>
+
+<!--表单-->
+<form id="J-form" class="cm-form">
+    <table class="cm-form-table" align="center">
+        <tr>
+            <td width="80" class="col-txt text-right">旧密码：</td>
+            <td width="400" class="col-input"><input type="password" name="oldPwd"></td>
+        </tr>
+        <tr>
+            <td width="80" class="col-txt text-right">新密码：</td>
+            <td width="400" class="col-input"><input type="password" name="newPwd" data-ve="validate[minSize[6]]"></td>
+        </tr>
+        <tr>
+            <td width="80" class="col-txt text-right">确认密码：</td>
+            <td width="400" class="col-input"><input type="password" name="newPwdEx"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="text-center">
+                <button type="submit" class="cm-btn ml20px">提 交</button>
+                <button id="J-btn-back" type="button" class="cm-btn cm-btn-green ml20px">取 消</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<!-- start basic scripts -->
+<script src="dist/lib/jquery/jquery.min.js?v=1510918310456"></script>
+<script src="dist/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js?v=1510918310456"></script>
+<script src="dist/lib/bootstrap-datepicker/js/bootstrap-datepicker.zh-CN.js?v=1510918310456"></script>
+<script src="dist/lib/H/js/H.min.js?v=1510918310456"></script>
+<!-- end basic scripts -->
+
+<script>
+    var v = H.Storage.get('version');
+    H.JsLoader.get({
+        name: 'common',
+        url: 'dist/js/oss-common.js?v=' + v
+    },{
+        name: 'user-change-pwd',
+        url: 'dist/js/user-change-pwd.js?v=' + v
+    });
+</script>
+</body>
+</html>

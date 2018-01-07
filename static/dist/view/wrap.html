@@ -1,0 +1,57 @@
+<div wrap-fit real-time>
+    <!-- 页头 -->
+    <div id="J-header" class="header">
+        <h1 class="title">
+            <img class="img" src="/dist/img/common/logo.png" width="84" height="30"/>
+            七乐康运营管理平台
+        </h1>
+        <div class="fr pr15px">
+            <span class="ml20px">您好！欢迎您【{{identityName}}】{{userName}}</span>
+            <span class="ml20px"><a id="J-link-change-pwd" href="user-change-pwd.html" target="home" class="cm-link-white" name="修改密码"><i class="icon-font icon-pwd">&#xe600</i>修改密码</a></span>
+            <!--<span class="ml20px"><a id="J-link-refresh" href="#" class="cm-link-white"><i class="icon-font icon-refresh">&#xe602</i>刷新系统</a></span>-->
+            <span class="ml20px"><a href="#" class="cm-link-white" ng-click="logout()"><i class="icon-font icon-exit">&#xe605</i>退出系统</a></span>
+        </div>
+    </div>
+
+    <div id="J-sidebar" class="sidebar">
+        <ul class="inner">
+            <li ng-repeat="item in menuList|menuFilter:identityCompetence:isSupperUser" set-side-scroll class="item" ng-class="{'J-has-submenu':item.submenu.length>0}">
+
+                <a ng-if="item.href != ''" ng-href="{{item.href}}" target="{{item.target}}{{item.id}}" class="fix-box" name="{{item.name}}">{{item.name}}</a>
+                <span class="fix-box" ng-if="item.href == ''">{{item.name}}</span>
+
+                <ul class="J-submenu submenu" ng-if="item.submenu.length > 0">
+
+                    <li class="item" ng-repeat="subMenuClsTwo in item.submenu|menuFilter:identityCompetence:isSupperUser">
+
+                        <div class="inner" ng-class="{'can-open J-can-open':subMenuClsTwo.submenu.length}">
+                            <a ng-href="{{subMenuClsTwo.href}}" ng-if="subMenuClsTwo.href != ''" target="{{subMenuClsTwo.target}}{{subMenuClsTwo.id}}" name="{{subMenuClsTwo.name}}">{{subMenuClsTwo.name}}</a>
+                            <span class="no-link" ng-if="subMenuClsTwo.href == ''">{{subMenuClsTwo.name}}</span>
+                            <i class="icon-font icon-close">&#xe603</i>
+                            <i class="icon-font icon-open">&#xe604</i>
+                        </div>
+
+                        <div class="lastmenu-wrap" ng-if="subMenuClsTwo.submenu.length">
+                            <ul class="lastmenu">
+                                <li class="item" ng-repeat="subMenuClsThree in subMenuClsTwo.submenu|menuFilter:identityCompetence:isSupperUser">
+                                    <a ng-href="{{subMenuClsThree.href}}" target="{{subMenuClsThree.target}}{{subMenuClsThree.id}}" class="cm-link-blue" name="{{subMenuClsThree.name}}">{{subMenuClsThree.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </li>
+        </ul>
+    </div>
+    <div id="J-submenu-wrap" class="submenu-wrap"></div>
+
+    <div ui-view></div>
+
+    <div id="J-footer" class="footer">
+        2016 © Powered By <a href="#">七乐康技术研发部</a>
+    </div>
+
+</div>
